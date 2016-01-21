@@ -55,11 +55,13 @@ controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (
         convo.stop();
       } else {
         console.log(response.text);
-        cb.ask(response.text, function (err, ans, cnv = this.convo) {
+        var convo = convo;
+        cb.ask(response.text, function (err, ans) {
+          global convo;
           console.log(ans);
-          cnv.say(ans);
-          cnv.silentRepeat();
-          cnv.next();
+          convo.say(ans);
+          convo.silentRepeat();
+          convo.next();
         });
       }
     })
