@@ -52,7 +52,7 @@ controller.hears(['/(hey there)/i'], ['direct_message', 'direct_mention'], funct
   bot.reply(message, cb.ask(message, function (err, response) {
     return response;
   }));
-}))
+})
 
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
   bot.reply(message, 'Sorry <@' + message.user + '>, I don\'t understand. \n')
