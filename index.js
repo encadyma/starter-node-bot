@@ -48,7 +48,7 @@ controller.hears('help', ['direct_message', 'direct_mention'], function (bot, me
   bot.reply(message, help)
 })
 
-controller.hears(['/(hey there)/i'], ['direct_message', 'direct_mention'], function (bot, message) {
+controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (bot, message) {
   bot.reply(message, cb.ask(message, function (err, response) {
     return response;
   }));
