@@ -1,26 +1,27 @@
 {
-  "name": "node-slack-bot",
+  "name": "odysseus-slack-bot",
   "version": "1.0.0",
-  "description": "A sample Beep Boop Node.js Slackbot",
+  "description": "I like Odysseus, and I trust him to help the Slack. Based on BeepBoop's node-slack-bot.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/beepboophq/node-slack-bot.git"
+    "url": "git+https://github.com/encadyma/node-slack-bot.git"
   },
   "keywords": [
     "slackbot",
     "bot",
-    "slack"
+    "slack",
+    "odysseus"
   ],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/beepboophq/node-slack-bot/issues"
+    "url": "https://github.com/encadyma/node-slack-bot/issues"
   },
-  "homepage": "https://github.com/beepboophq/node-slack-bot#readme",
+  "homepage": "https://github.com/encadyma/node-slack-bot#readme",
   "dependencies": {
     "botkit": "0.0.5"
   }
