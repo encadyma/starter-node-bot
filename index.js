@@ -20,8 +20,6 @@ bot.startRTM(function (err, bot, payload) {
   }
 })
 
-cb.create(function (err, session) {})
-
 controller.on('bot_channel_join', function (bot, message) {
   bot.reply(message, "I'm here!")
 })
@@ -49,9 +47,20 @@ controller.hears('help', ['direct_message', 'direct_mention'], function (bot, me
 })
 
 controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (bot, message) {
-  bot.reply(message, cb.ask(message, function (err, response) {
-    return response;
-  }));
+  cb.create(function (err, session) {
+    bot.startConversation(message, function(err, convo) {
+  	  convo.ask('Hey, how are you?', function(response, convo) {
+        if (response.text == "exit") { convo.stop(); } else {
+          convo.say(cb.ask(response.text, function (err, response) {
+            return response;
+          }));
+          convo.silentRepeat();
+    	    convo.next();
+        }
+  	  });
+  	})
+
+  })
 })
 
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
