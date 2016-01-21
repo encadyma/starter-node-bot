@@ -40,16 +40,17 @@ controller.hears('.*', ['mention'], function (bot, message) {
 
 controller.hears('help', ['direct_message', 'direct_mention'], function (bot, message) {
   var help = 'I will respond to the following messages: \n' +
-      '`bot hi` for a simple message.\n' +
-      '`bot attachment` to see a Slack attachment message.\n' +
-      '`@<your bot\'s name>` to demonstrate detecting a mention.\n' +
-      '`bot help` to see this again.'
+      '`@odysseus hey there` to talk to my inner AI.\n' +
+      '`@odysseus hi` for a simple message.\n' +
+      '`@odysseus help` to see this again.'
   bot.reply(message, help)
 })
 
 controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (bot, message) {
-  bot.startConversation(message, function(err, convo) {
-    convo.ask('Hey, how are you?', function(response, convo) {
+  bot.startPrivateConversation(message, function(err, convo) {
+    var canned = ["How are you?", "Need something?", "What's up?", "How you doing?", "How's it going?", "What's the deal?"];
+    convo.say(canned[Math.floor(Math.random()*canned.length)]);   // use Math.floor to prevent an undef 'canned.length' index
+    convo.ask('', function(response, convo) {
       if (response.text == "exit") {
         convo.say("Nice knowing you " + response.user + "!");
         convo.stop();
@@ -57,11 +58,14 @@ controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (
         console.log(response.text);
         var convo = convo;
         cb.ask(response.text, function (err, ans) {
-          console.log(ans);
-          convo.say(ans);
+          console.log("[ERROR: "+err+"]", ans);
+          if (err)
+            convo.say(canned[Math.floor(Math.random()*canned.length)]);
+          else
+            convo.say(ans);
+          convo.repeat();
+          convo.next();
         });
-        convo.silentRepeat();
-        convo.next();
       }
     })
   });
