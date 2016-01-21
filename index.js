@@ -1,6 +1,6 @@
 var Botkit = require('botkit')
-var cleverbot = require('cleverbot.io');
-var cb = new cleverbot('54NkGKDf0f8CwHJv','2X68ZWZi03jw8SkUQRrGKWKDwe0aDj3e');    // This is probably pretty stupid, but k.
+var cleverbot = require('cleverbot-node');
+var cb = new cleverbot;    // This is probably pretty stupid, but k.
 
 // Expect a SLACK_TOKEN environment variable
 var slackToken = process.env.SLACK_TOKEN
@@ -13,7 +13,7 @@ var controller = Botkit.slackbot()
 var bot = controller.spawn({
   token: slackToken
 })
-cb.create(function (err, session) {});
+//cb.create(function (err, session) {});
 
 bot.startRTM(function (err, bot, payload) {
   if (err) {
@@ -57,14 +57,17 @@ controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (
       } else {
         console.log(response.text);
         var convo = convo;
-        cb.ask(response.text, function (err, ans) {
-          console.log("[ERROR: "+err+"]", ans);
-          if (err)
-            convo.say(canned[Math.floor(Math.random()*canned.length)]);
-          else
-            convo.say(ans);
-          convo.repeat();
-          convo.next();
+        var response = response;
+        cleverbot.prepare(function(){
+          cb.write(response.text, function (ans) {
+            console.log("[ERROR: "+err+"]", ans);
+            if (err)
+              convo.say(canned[Math.floor(Math.random()*canned.length)]);
+            else
+              convo.say(ans);
+            convo.repeat();
+            convo.next();
+          });
         });
       }
     })
