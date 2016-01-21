@@ -51,9 +51,11 @@ controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (
     bot.startConversation(message, function(err, convo) {
   	  convo.ask('Hey, how are you?', function(response, convo) {
         if (response.text == "exit") { convo.stop(); } else {
-          convo.say(cb.ask(response.text, function (err, response) {
-            return response;
-          }));
+          ans = cb.ask(response.text, function (err, ans) {
+            return ans;
+          });
+          console.log(ans);
+          convo.say(ans);
           convo.silentRepeat();
     	    convo.next();
         }
