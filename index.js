@@ -1,3 +1,4 @@
+var async = require('async')    // for cb syncing
 var Botkit = require('botkit')
 var cleverbot = require('cleverbot.io');
 var cb = new cleverbot('54NkGKDf0f8CwHJv','2X68ZWZi03jw8SkUQRrGKWKDwe0aDj3e');    // This is probably pretty stupid, but k.
@@ -50,17 +51,27 @@ controller.hears('help', ['direct_message', 'direct_mention'], function (bot, me
 controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (bot, message) {
     bot.startConversation(message, function(err, convo) {
   	  convo.ask('Hey, how are you?', function(response, convo) {
-        if (response.text == "exit") { convo.stop(); } else {
+        if (response.text == "exit") {
+          convo.say("Nice knowing you " + response.user + "!");
+          convo.stop();
+        } else {
           console.log(response.text);
-          ans = cb.ask(response.text, function (err, ans, convo) {
-            console.log(ans);
+          async.parallel({
+            ans: function(callback) {
+              cb.ask(response.text, function (err, ans) {
+                console.log(ans);
+                callback(null, ans);
+              })
+            }
+          }, function(err, result) {
             convo.say(ans);
             convo.silentRepeat();
-      	    convo.next();
+            convo.next();
           });
         }
-  	  });
-  	})
+      }
+  	});
+  })
 })
 
 controller.hears(['!flip'], ['direct_message', 'direct_mention'], function (bot, message) {
