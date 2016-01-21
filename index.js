@@ -1,4 +1,3 @@
-var async = require('async')    // for cb syncing
 var Botkit = require('botkit')
 var cleverbot = require('cleverbot.io');
 var cb = new cleverbot('54NkGKDf0f8CwHJv','2X68ZWZi03jw8SkUQRrGKWKDwe0aDj3e');    // This is probably pretty stupid, but k.
@@ -56,17 +55,11 @@ controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (
           convo.stop();
         } else {
           console.log(response.text);
-          async.parallel({
-            ans: function(callback) {
-              cb.ask(response.text, function (err, ans) {
-                console.log(ans);
-                callback(null, ans);
-              })
-            }
-          }, function(err, result) {
-            convo.say(ans);
-            convo.silentRepeat();
-            convo.next();
+          cb.ask(response.text, function (err, ans, cnv = this.convo) {
+            console.log(ans);
+            cnv.say(ans);
+            cnv.silentRepeat();
+            cnv.next();
           });
         }
       }
