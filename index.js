@@ -52,16 +52,22 @@ controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (
   	  convo.ask('Hey, how are you?', function(response, convo) {
         if (response.text == "exit") { convo.stop(); } else {
           console.log(response.text);
-          ans = cb.ask(response.text, function (err, ans) {
-            return ans;
+          ans = cb.ask(response.text, function (err, ans, convo) {
+            console.log(ans);
+            convo.say(ans);
+            convo.silentRepeat();
+      	    convo.next();
           });
-          console.log(ans);
-          convo.say(ans);
-          convo.silentRepeat();
-    	    convo.next();
         }
   	  });
   	})
+})
+
+controller.hears(['!flip'], ['direct_message', 'direct_mention'], function (bot, message) {
+  if (Math.random() >= 0.5)
+    bot.reply(message, 'Heads!')
+  else
+    bot.reply(message, 'Tails!')
 })
 
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
