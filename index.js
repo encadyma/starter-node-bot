@@ -59,9 +59,9 @@ controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (
         cb.ask(response.text, function (err, ans) {
           console.log(ans);
           convo.say(ans);
-          convo.silentRepeat();
-          convo.next();
         });
+        convo.silentRepeat();
+        convo.next();
       }
     })
   });
