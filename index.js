@@ -13,6 +13,7 @@ var controller = Botkit.slackbot()
 var bot = controller.spawn({
   token: slackToken
 })
+cb.create(function (err, session) {});
 
 bot.startRTM(function (err, bot, payload) {
   if (err) {
@@ -47,10 +48,10 @@ controller.hears('help', ['direct_message', 'direct_mention'], function (bot, me
 })
 
 controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (bot, message) {
-  cb.create(function (err, session) {
     bot.startConversation(message, function(err, convo) {
   	  convo.ask('Hey, how are you?', function(response, convo) {
         if (response.text == "exit") { convo.stop(); } else {
+          console.log(response.text);
           ans = cb.ask(response.text, function (err, ans) {
             return ans;
           });
@@ -61,8 +62,6 @@ controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (
         }
   	  });
   	})
-
-  })
 })
 
 controller.hears('.*', ['direct_message', 'direct_mention'], function (bot, message) {
