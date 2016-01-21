@@ -57,7 +57,6 @@ controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (
         console.log(response.text);
         var convo = convo;
         cb.ask(response.text, function (err, ans) {
-          global convo;
           console.log(ans);
           convo.say(ans);
           convo.silentRepeat();
