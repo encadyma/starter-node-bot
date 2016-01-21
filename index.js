@@ -48,23 +48,22 @@ controller.hears('help', ['direct_message', 'direct_mention'], function (bot, me
 })
 
 controller.hears(['hey there'], ['direct_message', 'direct_mention'], function (bot, message) {
-    bot.startConversation(message, function(err, convo) {
-  	  convo.ask('Hey, how are you?', function(response, convo) {
-        if (response.text == "exit") {
-          convo.say("Nice knowing you " + response.user + "!");
-          convo.stop();
-        } else {
-          console.log(response.text);
-          cb.ask(response.text, function (err, ans, cnv = this.convo) {
-            console.log(ans);
-            cnv.say(ans);
-            cnv.silentRepeat();
-            cnv.next();
-          });
-        }
+  bot.startConversation(message, function(err, convo) {
+    convo.ask('Hey, how are you?', function(response, convo) {
+      if (response.text == "exit") {
+        convo.say("Nice knowing you " + response.user + "!");
+        convo.stop();
+      } else {
+        console.log(response.text);
+        cb.ask(response.text, function (err, ans, cnv = this.convo) {
+          console.log(ans);
+          cnv.say(ans);
+          cnv.silentRepeat();
+          cnv.next();
+        });
       }
-  	});
-  })
+    })
+  });
 })
 
 controller.hears(['!flip'], ['direct_message', 'direct_mention'], function (bot, message) {
